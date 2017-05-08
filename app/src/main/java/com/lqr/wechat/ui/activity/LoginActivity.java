@@ -42,7 +42,9 @@ public class LoginActivity extends BaseActivity<ILoginAtView, LoginAtPresenter> 
     Button mBtnLogin;
     @Bind(R.id.tvOtherLogin)
     TextView mTvOtherLogin;
-
+    /**
+     * EditText监听事件
+     */
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -50,7 +52,7 @@ public class LoginActivity extends BaseActivity<ILoginAtView, LoginAtPresenter> 
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mBtnLogin.setEnabled(canLogin());
+            mBtnLogin.setEnabled(canLogin());//判断字体是否都有输入
         }
 
         @Override
@@ -63,10 +65,16 @@ public class LoginActivity extends BaseActivity<ILoginAtView, LoginAtPresenter> 
         mIbAddMenu.setVisibility(View.GONE);
     }
 
+    /**
+     * 初始化各类事件
+     */
     @Override
     public void initListener() {
         mEtPwd.addTextChangedListener(watcher);
         mEtPhone.addTextChangedListener(watcher);
+        /**
+         * 判断焦点是否存在EditText的输入框上
+         */
         mEtPwd.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 mVLinePwd.setBackgroundColor(UIUtils.getColor(R.color.green0));
@@ -81,7 +89,7 @@ public class LoginActivity extends BaseActivity<ILoginAtView, LoginAtPresenter> 
                 mVLinePhone.setBackgroundColor(UIUtils.getColor(R.color.line));
             }
         });
-
+        //调用登录方法
         mBtnLogin.setOnClickListener(v -> mPresenter.login());
     }
 
@@ -95,6 +103,10 @@ public class LoginActivity extends BaseActivity<ILoginAtView, LoginAtPresenter> 
     }
 
 
+    /**
+     * 开启Mvp模式
+     * @return
+     */
     @Override
     protected LoginAtPresenter createPresenter() {
         return new LoginAtPresenter(this);

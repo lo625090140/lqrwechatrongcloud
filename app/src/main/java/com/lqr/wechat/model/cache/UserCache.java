@@ -23,6 +23,12 @@ public class UserCache {
         return SPUtils.getInstance(UIUtils.getContext()).getString(AppConst.User.TOKEN, "");
     }
 
+    /**
+     * 使用sharedPreferences工具类 缓存用户的ID，Phone，token
+     * @param id
+     * @param account
+     * @param token
+     */
     public static void save(String id, String account, String token) {
         SPUtils.getInstance(UIUtils.getContext()).putString(AppConst.User.ID, id);
         SPUtils.getInstance(UIUtils.getContext()).putString(AppConst.User.PHONE, account);

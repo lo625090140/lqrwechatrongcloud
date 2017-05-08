@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
 
     @Override
     public void initView() {
-        setToolbarTitle(UIUtils.getString(R.string.app_name));
+        setToolbarTitle(UIUtils.getString(R.string.app_name));//设置Title名字
         mIbAddMenu.setVisibility(View.VISIBLE);
 
         //等待全局数据获取完毕
@@ -123,6 +123,9 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
 
     @Override
     public void initListener() {
+        /**
+         * 加好菜单的点击事件
+         */
         mIbAddMenu.setOnClickListener(v -> {
             //显示或隐藏popupwindow
             View menuView = View.inflate(MainActivity.this, R.layout.menu_main, null);
@@ -227,6 +230,10 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         mTvMeTextPress.setTextColor(Color.argb(0, 69, 192, 26));
     }
 
+    /**
+     * 使用MVP创建融云链接
+     * @return
+     */
     @Override
     protected MainAtPresenter createPresenter() {
         return new MainAtPresenter(this);
@@ -242,6 +249,12 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         return false;
     }
 
+    /**
+     * ViewPager的滑动事件
+     * @param position
+     * @param positionOffset
+     * @param positionOffsetPixels
+     */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         //根据ViewPager滑动位置更改透明度
@@ -281,6 +294,10 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         }
     }
 
+    /**
+     * 设置点击的时候通讯录里面字母导航显示或者隐藏
+     * @param position
+     */
     @Override
     public void onPageSelected(int position) {
         if (position == 1) {
@@ -291,6 +308,10 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         }
     }
 
+    /**
+     * 设置滑动的时候通讯录里面字母导航显示或者隐藏
+     * @param state
+     */
     @Override
     public void onPageScrollStateChanged(int state) {
         if (state != ViewPager.SCROLL_STATE_IDLE) {
@@ -301,6 +322,9 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         }
     }
 
+    /**
+     * 注册广播
+     */
     private void registerBR() {
         BroadcastManager.getInstance(this).register(AppConst.FETCH_COMPLETE, new BroadcastReceiver() {
             @Override
@@ -310,6 +334,9 @@ public class MainActivity extends BaseActivity<IMainAtView, MainAtPresenter> imp
         });
     }
 
+    /**
+     * 注销广播
+     */
     private void unRegisterBR() {
         BroadcastManager.getInstance(this).unregister(AppConst.FETCH_COMPLETE);
     }

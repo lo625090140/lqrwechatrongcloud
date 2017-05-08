@@ -84,11 +84,12 @@ public class ApiRetrofit extends BaseApiRetrofit {
 
     private ApiRetrofit() {
         super();
+        //创建一个Gson对象
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
-        //在构造方法中完成对Retrofit接口的初始化
+        //在构造方法中完成对Retrofit接口的初始化 创建 Retrofit对象
         mApi = new Retrofit.Builder()
                 .baseUrl(MyApi.BASE_URL)
                 .client(getClient())
@@ -98,6 +99,10 @@ public class ApiRetrofit extends BaseApiRetrofit {
                 .create(MyApi.class);
     }
 
+    /**
+     * 单例声明对象
+     * @return
+     */
     public static ApiRetrofit getInstance() {
         if (mInstance == null) {
             synchronized (ApiRetrofit.class) {
@@ -109,6 +114,11 @@ public class ApiRetrofit extends BaseApiRetrofit {
         return mInstance;
     }
 
+    /**
+     * 将传进来的对象转换成Json格式; 返回请求体
+     * @param obj
+     * @return
+     */
     private RequestBody getRequestBody(Object obj) {
         String route = new Gson().toJson(obj);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), route);
@@ -118,6 +128,9 @@ public class ApiRetrofit extends BaseApiRetrofit {
 
     //登录
     public Observable<LoginResponse> login(String region, String phone, String password) {
+        /**
+         * 调用登录的请求
+         */
         return mApi.login(getRequestBody(new LoginRequest(region, phone, password)));
     }
 

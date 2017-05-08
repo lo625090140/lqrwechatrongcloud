@@ -111,7 +111,7 @@ public class RegisterAtPresenter extends BasePresenter<IRegisterAtView> {
                     } else {
                         mTimer.cancel();
                     }
-                }, throwable -> LogUtils.sf(throwable.getLocalizedMessage()));
+                }, this::registerError);
     }
 
     public void register() {

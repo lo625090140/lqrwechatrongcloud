@@ -37,6 +37,9 @@ public class LoginAtPresenter extends BasePresenter<ILoginAtView> {
         }
 
         mContext.showWaitingDialog(UIUtils.getString(R.string.please_wait));
+        /**
+         * 通过自己写的Retrofit封装类对象调用登录方法传入参数 执行请求返回jsonBean对象
+         */
         ApiRetrofit.getInstance().login(AppConst.REGION, phone, pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,11 +47,14 @@ public class LoginAtPresenter extends BasePresenter<ILoginAtView> {
                     int code = loginResponse.getCode();
                     mContext.hideWaitingDialog();
                     if (code == 200) {
+                        /**
+                         * 缓存Token ,Phone,token
+                         */
                         UserCache.save(loginResponse.getResult().getId(), phone, loginResponse.getResult().getToken());
                         mContext.jumpToActivityAndClearTask(MainActivity.class);
                         mContext.finish();
                     } else {
-                        loginError(new ServerException(UIUtils.getString(R.string.login_error) + code));
+                        loginError(new ServerException(UIUtils.getString(R.string.login_error) + code));//有错误抛出错误
                     }
                 }, this::loginError);
     }
