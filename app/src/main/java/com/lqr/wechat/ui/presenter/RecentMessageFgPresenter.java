@@ -69,6 +69,9 @@ public class RecentMessageFgPresenter extends BasePresenter<IRecentMessageFgView
         setAdapter();
     }
 
+    /**
+     * 获取融云用户聊天数据
+     */
     private void loadData() {
         RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
             @Override
@@ -116,6 +119,9 @@ public class RecentMessageFgPresenter extends BasePresenter<IRecentMessageFgView
         }
         updateTotalUnreadView();
         if (mAdapter != null)
+        /**
+         * 刷新全局数据
+         */
             mAdapter.notifyDataSetChangedWrapper();
     }
 
@@ -137,8 +143,14 @@ public class RecentMessageFgPresenter extends BasePresenter<IRecentMessageFgView
                 public void convert(LQRViewHolderForRecyclerView helper, Conversation item, int position) {
                     if (item.getConversationType() == Conversation.ConversationType.PRIVATE) {
                         ImageView ivHeader = helper.getView(R.id.ivHeader);
+                        /**
+                         * 获取融云数据库信息
+                         */
                         UserInfo userInfo = DBManager.getInstance().getUserInfo(item.getTargetId());
                         if (userInfo != null) {
+                            /**
+                             * 用Glide框架加在getPortraitUri（头像）
+                             */
                             Glide.with(mContext).load(userInfo.getPortraitUri()).centerCrop().into(ivHeader);
                             helper.setText(R.id.tvDisplayName, userInfo.getName())
                                     .setText(R.id.tvTime, TimeUtils.getMsgFormatTime(item.getReceivedTime()))
@@ -226,6 +238,10 @@ public class RecentMessageFgPresenter extends BasePresenter<IRecentMessageFgView
                     }
                 }
             };
+
+            /**
+             * 设置view点击事件
+             */
             mAdapter.setOnItemClickListener((helper, parent, itemView, position) -> {
                 Intent intent = new Intent(mContext, SessionActivity.class);
                 Conversation item = mData.get(position);

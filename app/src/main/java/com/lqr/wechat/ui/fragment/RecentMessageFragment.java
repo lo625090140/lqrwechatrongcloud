@@ -66,6 +66,10 @@ public class RecentMessageFragment extends BaseFragment<IRecentMessageFgView, Re
         BroadcastManager.getInstance(getActivity()).unregister(AppConst.UPDATE_CONVERSATIONS);
     }
 
+    /**
+     * 创建MVp
+     * @return
+     */
     @Override
     protected RecentMessageFgPresenter createPresenter() {
         return new RecentMessageFgPresenter((MainActivity) getActivity());

@@ -68,6 +68,9 @@ public class SessionActivity extends BaseFragmentActivity<ISessionAtView, Sessio
     public final static int REQUEST_TAKE_PHOTO = 1001;
     public final static int REQUEST_MY_LOCATION = 1002;
 
+    /**
+     * 私人还是群聊
+     */
     public final static int SESSION_TYPE_PRIVATE = 1;
     public final static int SESSION_TYPE_GROUP = 2;
 
@@ -120,6 +123,9 @@ public class SessionActivity extends BaseFragmentActivity<ISessionAtView, Sessio
 
     @Override
     public void init() {
+        /**
+         * 私人（1）还是群聊（2）
+         */
         Intent intent = getIntent();
         mSessionId = intent.getStringExtra("sessionId");
         int sessionType = intent.getIntExtra("sessionType", SESSION_TYPE_PRIVATE);
@@ -279,6 +285,9 @@ public class SessionActivity extends BaseFragmentActivity<ISessionAtView, Sessio
         mRlRedPacket.setOnClickListener(v -> mPresenter.sendRedPacketMsg());
     }
 
+    /**
+     * 请继续
+     */
     private void initAudioRecordManager() {
         AudioRecordManager.getInstance(this).setMaxVoiceDuration(AppConst.DEFAULT_MAX_AUDIO_RECORD_TIME_SECOND);
         File audioDir = new File(AppConst.AUDIO_SAVE_DIR);
